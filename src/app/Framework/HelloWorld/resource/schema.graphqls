@@ -1,0 +1,7 @@
+extend type Query {
+    sayHello: Hello @resolver(class: "Framework.HelloWorld.Resolver.HelloResolver")
+}
+
+type Hello {
+    msg: String
+}

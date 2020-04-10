@@ -1,4 +1,4 @@
-import {BaseResolverAbstract} from "@app/Robo/GraphQL/API/Resolver/BaseResolverAbstract";
+import {BaseResolverAbstract} from "@framework/GraphQL/API/Resolver/BaseResolverAbstract";
 
 export default class HelloResolver extends BaseResolverAbstract {
     /**

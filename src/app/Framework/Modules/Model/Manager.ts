@@ -4,9 +4,9 @@
  */
 import {readdirSync} from 'fs';
 
-import {Container} from "@app/Robo/Server/Model/Container";
-import {ModuleInterface} from "@app/Robo/Modules/Api/ModuleInterface";
-import {Module} from "@app/Robo/Modules/Model/Module";
+import {Container} from "@framework/Server/Model/Container";
+import {ModuleInterface} from "@framework/Modules/Api/ModuleInterface";
+import {Module} from "@framework/Modules/Model/Module";
 import Maybe from "graphql/tsutils/Maybe";
 
 /**

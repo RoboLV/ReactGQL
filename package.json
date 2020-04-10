@@ -23,7 +23,7 @@
   },
   "_moduleAliases": {
     "@app": "dist/app",
-    "@framework": "dist/framework"
+    "@framework": "dist/app/Framework"
   },
   "repository": {
     "type": "git",

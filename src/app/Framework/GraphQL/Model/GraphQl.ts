@@ -3,15 +3,14 @@
  * @package regl
  */
 
-import fs from 'fs';
 import graphqlHTTP from 'express-graphql';
 import {
     buildSchema, GraphQLSchema, defaultFieldResolver, GraphQLResolveInfo, getDirectiveValues, extendSchema, parse
 } from 'graphql';
 
-import {BaseResolverInterface} from "@app/Robo/GraphQL/API/Resolver/BaseResolverInterface";
-import ModuleManager from "@app/Robo/Modules/Model/Manager";
-import {Server} from "@app/Robo/Server/Model/Server";
+import {BaseResolverInterface} from "@framework/GraphQL/API/Resolver/BaseResolverInterface";
+import ModuleManager from "@framework/Modules/Model/Manager";
+import {Server} from "@framework/Server/Model/Server";
 
 /**
  * Express GraphQL Wrapper and interface
@@ -57,7 +56,7 @@ export class GraphQl {
      */
     protected _loadSchema(): string[] {
         const schema: string[] = [];
-        ModuleManager.getModule('Robo.GraphQL')
+        ModuleManager.getModule('Framework.GraphQL')
             .requireResource('resources/baseSchema.graphqls', (content: string) => {
                 schema.push(content);
             }, false);

@@ -2,7 +2,7 @@ import 'module-alias/register';
 // @ts-ignore
 import expressCluster from "express-cluster";
 import DotEnv from 'dotenv';
-import { Server } from '@app/Robo/Server/Model/Server';
+import { Server } from '@framework/Server/Model/Server';
 
 DotEnv.config();
 

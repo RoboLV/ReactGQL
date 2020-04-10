@@ -3,7 +3,7 @@
  * @package regl
  */
 
-import {BaseResolverInterface} from "@app/Robo/GraphQL/API/Resolver/BaseResolverInterface";
+import {BaseResolverInterface} from "@framework/GraphQL/API/Resolver/BaseResolverInterface";
 
 /**
  * Abstract Resolver

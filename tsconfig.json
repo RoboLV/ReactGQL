@@ -12,8 +12,8 @@
     "paths": {
       "@app/*": ["src/app/*"],
       "@app": ["src/app/"],
-      "@framework/*": ["src/framework/*"],
-      "@framework": ["src/framework/"]
+      "@framework/*": ["src/app/Framework/*"],
+      "@framework": ["src/app/Framework/"]
     }
   },
   "include": [

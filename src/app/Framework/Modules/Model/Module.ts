@@ -4,10 +4,10 @@
  */
 
 import * as fs from "fs";
-import {GraphQLResolver} from "@app/Robo/Modules/Model/Resource/MergeResolver/GraphQLResolver";
-import {ModuleInterface} from "@app/Robo/Modules/Api/ModuleInterface";
-import {BaseModuleConfigInterface} from "@app/Robo/Modules/Api/BaseModuleConfigInterface";
-import ModuleManager from "@app/Robo/Modules/Model/Manager";
+import {GraphQLResolver} from "@framework/Modules/Model/Resource/MergeResolver/GraphQLResolver";
+import {ModuleInterface} from "@framework/Modules/Api/ModuleInterface";
+import {BaseModuleConfigInterface} from "@framework/Modules/Api/BaseModuleConfigInterface";
+import ModuleManager from "@framework/Modules/Model/Manager";
 
 /**
  * Module
