@@ -1,4 +1,9 @@
-import {BaseModuleConfigInterface} from "@framework/Modules/Api/BaseModuleConfigInterface";
+/*
+ * @author Rihard <pub@email.soon>
+ * @package regl
+ */
+
+import {BaseModuleConfigInterface} from "@app/Robo/Modules/Api/BaseModuleConfigInterface";
 
 /**
  * HelloWorld config

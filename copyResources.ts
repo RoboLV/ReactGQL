@@ -8,6 +8,10 @@ glob('src/**/*.graphqls', {}, (err, files) => {
     Object.values(files).forEach((file) => {
         const distPath = file.split('/');
         distPath[0] = 'dist';
-        fs.copyFile(file, distPath.join('/'), () => {});
+        const newPath = distPath.join('/');
+        distPath.pop();
+        const newDir = distPath.join('/')
+        fs.mkdirSync(newDir, { recursive: true });
+        fs.copyFile(file,newPath, () => {});
     });
 });

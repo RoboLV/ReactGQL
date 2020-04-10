@@ -1,10 +1,17 @@
+/*
+ * @author Rihard <pub@email.soon>
+ * @package regl
+ */
+
+import fs from 'fs';
 import graphqlHTTP from 'express-graphql';
 import {
     buildSchema, GraphQLSchema, defaultFieldResolver, GraphQLResolveInfo, getDirectiveValues, extendSchema, parse
 } from 'graphql';
-import fs from 'fs';
-import { App } from "@framework";
-import {BaseResolverInterface} from "@framework/Server/Resolver/BaseResolverInterface";
+
+import {BaseResolverInterface} from "@app/Robo/GraphQL/API/Resolver/BaseResolverInterface";
+import ModuleManager from "@app/Robo/Modules/Model/Manager";
+import {Server} from "@app/Robo/Server/Model/Server";
 
 /**
  * Express GraphQL Wrapper and interface
@@ -13,7 +20,7 @@ export class GraphQl {
     /**
      * App reference
      */
-    private _app: App;
+    private _app: Server;
 
     /**
      * Resolved resolvers
@@ -25,7 +32,7 @@ export class GraphQl {
      *
      * @param app
      */
-    constructor(app: App) {
+    constructor(app: Server) {
         this._app = app;
     }
 
@@ -49,15 +56,20 @@ export class GraphQl {
      * @return {string[]}
      */
     protected _loadSchema(): string[] {
-        const schema = [];
-        schema.push(fs.readFileSync( 'dist/framework/resources/server/schema.graphqls').toString());
+        const schema: string[] = [];
+        ModuleManager.getModule('Robo.GraphQL')
+            .requireResource('resources/baseSchema.graphqls', (content: string) => {
+                schema.push(content);
+            }, false);
 
-        this._app.moduleManager.getModuleNameList().forEach((moduleName) => {
+        debugger;
+
+        this._app.moduleManager.getModuleNameList().forEach((moduleName: string) => {
             this._app.moduleManager
                 .getModule(moduleName)
                 .requireResource(
-                    'etc/schema.graphqls',
-                    (content) => schema.push(content),
+                    'resource/schema.graphqls',
+                    (content: string) => schema.push(content),
                     false
                 );
         });

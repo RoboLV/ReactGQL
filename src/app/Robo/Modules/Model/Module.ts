@@ -1,8 +1,13 @@
-import {ModuleInterface} from "@framework/Modules/Api/ModuleInterface";
-import {BaseModuleConfigInterface} from "@framework/Modules/Api/BaseModuleConfigInterface";
-import ModuleManager from "@framework/Modules/Manager";
+/**
+ * @author Rihard <pub@email.soon>
+ * @package regl
+ */
+
 import * as fs from "fs";
-import {GraphQLResolver} from "@framework/Modules/Resource/MergeResolver/GraphQLResolver";
+import {GraphQLResolver} from "@app/Robo/Modules/Model/Resource/MergeResolver/GraphQLResolver";
+import {ModuleInterface} from "@app/Robo/Modules/Api/ModuleInterface";
+import {BaseModuleConfigInterface} from "@app/Robo/Modules/Api/BaseModuleConfigInterface";
+import ModuleManager from "@app/Robo/Modules/Model/Manager";
 
 /**
  * Module
@@ -37,7 +42,7 @@ export class Module implements ModuleInterface {
     constructor(vendor: string, name: string) {
         this.vendor = vendor;
         this.name = name;
-        this.config = this.require(`/etc/config`) as BaseModuleConfigInterface;
+        this.config = this.require(`/config`) as BaseModuleConfigInterface;
     }
 
     /**
@@ -102,7 +107,7 @@ export class Module implements ModuleInterface {
         switch (resourceFileType) { // TODO: improve
             case 'graphql':
             case 'graphqls':
-                const resolver = new GraphQLResolver();
+                const resolver = new GraphQLResolver(); // TODO automate
 
                 return resolver.resolver(resource, content);
             default:

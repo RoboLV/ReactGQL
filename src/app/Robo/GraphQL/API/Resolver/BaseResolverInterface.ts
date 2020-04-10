@@ -1,4 +1,11 @@
+/*
+ * @author Rihard <pub@email.soon>
+ * @package regl
+ */
 
+/**
+ * Resolver interface
+ */
 export interface BaseResolverInterface {
     /**
      * Root value scope

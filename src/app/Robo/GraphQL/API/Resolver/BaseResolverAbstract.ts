@@ -1,5 +1,13 @@
-import {BaseResolverInterface} from "@framework/Server/Resolver/BaseResolverInterface";
+/*
+ * @author Rihard <pub@email.soon>
+ * @package regl
+ */
 
+import {BaseResolverInterface} from "@app/Robo/GraphQL/API/Resolver/BaseResolverInterface";
+
+/**
+ * Abstract Resolver
+ */
 export abstract class BaseResolverAbstract implements BaseResolverInterface {
     /**
      * Get path

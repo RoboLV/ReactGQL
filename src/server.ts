@@ -2,12 +2,12 @@ import 'module-alias/register';
 // @ts-ignore
 import expressCluster from "express-cluster";
 import DotEnv from 'dotenv';
-import { App } from '@framework';
+import { Server } from '@app/Robo/Server/Model/Server';
 
 DotEnv.config();
 
 expressCluster(() => {
-    const app = new App();
+    const app = new Server();
     app.run();
 }, {
     count: process.env.CLUSTER_COUNT || 1

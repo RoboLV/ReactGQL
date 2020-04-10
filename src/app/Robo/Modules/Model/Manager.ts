@@ -1,8 +1,14 @@
-import {Container} from "@framework/Container";
-import {ModuleInterface} from "@framework/Modules/Api/ModuleInterface";
-import {Module} from "@framework/Modules/Module";
-import Maybe from "graphql/tsutils/Maybe";
+/**
+ * @author Rihard <pub@email.soon>
+ * @package regl
+ */
 import {readdirSync} from 'fs';
+
+import {Container} from "@app/Robo/Server/Model/Container";
+import {ModuleInterface} from "@app/Robo/Modules/Api/ModuleInterface";
+import {Module} from "@app/Robo/Modules/Model/Module";
+import Maybe from "graphql/tsutils/Maybe";
+
 /**
  * Module manager
  */
@@ -16,6 +22,13 @@ export class Manager {
      * Modules storage
      */
     _modules: Container = new Container();
+
+    /**
+     * Constructor
+     */
+    constructor() {
+        Manager.instance = this;
+    }
 
     /**
      * initialize and load modules
@@ -72,5 +85,4 @@ export class Manager {
     }
 }
 
-Manager.instance = Manager.instance || new Manager();
-export default Manager.instance
+export default Manager.instance || new Manager();

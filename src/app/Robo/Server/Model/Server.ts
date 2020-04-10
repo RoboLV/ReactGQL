@@ -1,14 +1,20 @@
-import Express, { Express as ExpressInterface } from 'express';
-import DotEnv from 'dotenv';
+/**
+ * @author Rihard <pub@email.soon>
+ * @package regl
+ */
+
 import path from "path";
-import { Container } from "@framework/Container";
-import { GraphQl } from "@framework/Server";
-import ModuleManager, {Manager} from "@framework/Modules/Manager";
+import DotEnv from 'dotenv';
+import Express, { Express as ExpressInterface } from 'express';
+
+import { Container } from "@app/Robo/Server/Model/Container";
+import ModuleManager, {Manager} from "@app/Robo/Modules/Model/Manager";
+import {GraphQl} from "@app/Robo/GraphQL/Model/GraphQl";
 
 /**
  * Main server class
  */
-export class App extends Container {
+export class Server extends Container {
     /**
      * Express instance
      */
