@@ -1,0 +1,13 @@
+// @ts-ignore
+
+import fs from 'fs';
+import glob from 'glob';
+
+// Copy graphQLS
+glob('src/**/*.graphqls', {}, (err, files) => {
+    Object.values(files).forEach((file) => {
+        const distPath = file.split('/');
+        distPath[0] = 'dist';
+        fs.copyFile(file, distPath.join('/'), () => {});
+    });
+});

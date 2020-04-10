@@ -8,6 +8,15 @@ export class Container {
     protected _data: any = {};
 
     /**
+     * Constructor
+     *
+     * @param data
+     */
+    constructor(data: any = {}) {
+        this._data = data;
+    }
+
+    /**
      * Get data
      *
      * @param key
@@ -26,5 +35,12 @@ export class Container {
         this._data[key] = value;
 
         return this;
+    }
+
+    /**
+     * Get data
+     */
+    get data() {
+        return this._data;
     }
 }

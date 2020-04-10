@@ -3,6 +3,7 @@ import DotEnv from 'dotenv';
 import path from "path";
 import { Container } from "@framework/Container";
 import { GraphQl } from "@framework/Server";
+import ModuleManager, {Manager} from "@framework/Modules/Manager";
 
 /**
  * Main server class
@@ -19,11 +20,17 @@ export class App extends Container {
     private _graphQl: GraphQl;
 
     /**
+     * Module manager
+     */
+    private _moduleManager: Manager = ModuleManager;
+
+    /**
      * Start server
      */
     public run(): void {
         this._createExpress();
         this._setupConfiguration();
+        this._setupModuleManager();
         this._setupGraphQl();
         this._setupPublicPath();
         this._startUpExpress();
@@ -84,6 +91,21 @@ export class App extends Container {
             );
             console.log("  Press CTRL-C to stop\n");
         });
+    }
+
+    /**
+     * Setup module manager
+     * @private
+     */
+    protected _setupModuleManager() {
+        this.moduleManager.initialize();
+    }
+
+    /**
+     * Get module Manager
+     */
+    get moduleManager(): Manager {
+        return this._moduleManager;
     }
 
     /**

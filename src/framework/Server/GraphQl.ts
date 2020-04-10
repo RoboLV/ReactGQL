@@ -1,5 +1,6 @@
 import graphqlHTTP from 'express-graphql';
-import {buildSchema, GraphQLSchema} from 'graphql';
+import {buildSchema, GraphQLSchema, defaultFieldResolver, GraphQLResolveInfo, getDirectiveValues} from 'graphql';
+import fs from 'fs';
 import { App } from "@framework";
 
 /**
@@ -29,6 +30,7 @@ export class GraphQl {
         this._app.express.use('/graphql', graphqlHTTP({
             schema: this._prepareSchema(),
             rootValue: this._prepareRoot(),
+            fieldResolver: this.fieldResolver.bind(this),
             graphiql: true
         }));
     }
@@ -39,7 +41,10 @@ export class GraphQl {
      * @return {string}
      */
     protected _loadSchema(): string {
-        return 'type Query { test: String }';
+        const baseSchema = fs.readFileSync( 'dist/framework/resources/server/schema.graphqls');
+
+        return baseSchema + '';
+
     }
 
     /**
@@ -58,6 +63,26 @@ export class GraphQl {
      */
     protected _prepareRoot() {
         return {};
+    }
+
+    /**
+     * Resolve resolver
+     *
+     * @param source
+     * @param args
+     * @param context
+     * @param info
+     */
+    protected fieldResolver(source: any, args: any, context: any, info: GraphQLResolveInfo) {
+        const fieldDef = info.parentType.getFields()[info.fieldName];
+        const resolverDirective = info.schema.getDirective('resolver');
+        const resolverValue = getDirectiveValues(resolverDirective, fieldDef.astNode);
+
+        if (resolverValue.class) {
+            return null;
+        }
+
+        return defaultFieldResolver(source, args, context, info);
     }
 }
 
