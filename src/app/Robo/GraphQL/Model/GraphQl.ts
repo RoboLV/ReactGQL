@@ -62,9 +62,7 @@ export class GraphQl {
                 schema.push(content);
             }, false);
 
-        debugger;
-
-        this._app.moduleManager.getModuleNameList().forEach((moduleName: string) => {
+        ModuleManager.getModuleNameList().forEach((moduleName: string) => {
             this._app.moduleManager
                 .getModule(moduleName)
                 .requireResource(
