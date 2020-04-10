@@ -1,6 +1,6 @@
 import {BaseResolverAbstract} from "@framework/Server/Resolver/BaseResolverAbstract";
 
-export class HelloResolver extends BaseResolverAbstract {
+export default class HelloResolver extends BaseResolverAbstract {
     /**
      * Resolver
      *
@@ -10,6 +10,8 @@ export class HelloResolver extends BaseResolverAbstract {
      * @param info
      */
     resolver(obj: object, args: object[], context: object, info: object): any {
-        return 'hello!';
+        return {
+            msg: "Hello!"
+        };
     }
 }

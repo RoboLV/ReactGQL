@@ -1,7 +1,10 @@
 import graphqlHTTP from 'express-graphql';
-import {buildSchema, GraphQLSchema, defaultFieldResolver, GraphQLResolveInfo, getDirectiveValues} from 'graphql';
+import {
+    buildSchema, GraphQLSchema, defaultFieldResolver, GraphQLResolveInfo, getDirectiveValues, extendSchema, parse
+} from 'graphql';
 import fs from 'fs';
 import { App } from "@framework";
+import {BaseResolverInterface} from "@framework/Server/Resolver/BaseResolverInterface";
 
 /**
  * Express GraphQL Wrapper and interface
@@ -11,6 +14,11 @@ export class GraphQl {
      * App reference
      */
     private _app: App;
+
+    /**
+     * Resolved resolvers
+     */
+    private resolvers: {[key: string]: BaseResolverInterface} = {};
 
     /**
      * Constructor
@@ -30,7 +38,7 @@ export class GraphQl {
         this._app.express.use('/graphql', graphqlHTTP({
             schema: this._prepareSchema(),
             rootValue: this._prepareRoot(),
-            fieldResolver: this.fieldResolver.bind(this),
+            fieldResolver: this._fieldResolver.bind(this),
             graphiql: true
         }));
     }
@@ -38,12 +46,23 @@ export class GraphQl {
     /**
      * Load all schemas
      *
-     * @return {string}
+     * @return {string[]}
      */
-    protected _loadSchema(): string {
-        const baseSchema = fs.readFileSync( 'dist/framework/resources/server/schema.graphqls');
+    protected _loadSchema(): string[] {
+        const schema = [];
+        schema.push(fs.readFileSync( 'dist/framework/resources/server/schema.graphqls').toString());
 
-        return baseSchema + '';
+        this._app.moduleManager.getModuleNameList().forEach((moduleName) => {
+            this._app.moduleManager
+                .getModule(moduleName)
+                .requireResource(
+                    'etc/schema.graphqls',
+                    (content) => schema.push(content),
+                    false
+                );
+        });
+
+        return schema;
 
     }
 
@@ -53,7 +72,15 @@ export class GraphQl {
      * @return {GraphQLSchema}
      */
     protected _prepareSchema(): GraphQLSchema {
-        return buildSchema(this._loadSchema());
+        const schemaParts = this._loadSchema();
+        const mainSchema = schemaParts.shift();
+        const rootSchema = buildSchema(mainSchema);
+
+        return schemaParts.reduce((root, sub) => {
+            root = extendSchema(root, parse(sub));
+
+            return root;
+        }, rootSchema);
     }
 
     /**
@@ -73,13 +100,28 @@ export class GraphQl {
      * @param context
      * @param info
      */
-    protected fieldResolver(source: any, args: any, context: any, info: GraphQLResolveInfo) {
+    protected _fieldResolver(source: any, args: any, context: any, info: GraphQLResolveInfo) {
         const fieldDef = info.parentType.getFields()[info.fieldName];
         const resolverDirective = info.schema.getDirective('resolver');
         const resolverValue = getDirectiveValues(resolverDirective, fieldDef.astNode);
 
-        if (resolverValue.class) {
-            return null;
+        if (resolverValue && resolverValue.class) {
+            if (!this.resolvers[resolverValue.class]) {
+                const classPath = resolverValue.class.split('.');
+                const vendor = classPath.shift();
+                const moduleName = classPath.shift();
+                const module = this._app.moduleManager.getModule([vendor, moduleName].join('.'));
+
+                // @ts-ignore
+                const resolver = module.require(classPath.join('/'));
+
+                if (!resolver) throw Error(`Undefined resolver: ${resolverValue.class}`);
+
+                // @ts-ignore
+                this.resolvers[resolverValue.class] = new resolver;
+            }
+
+            return this.resolvers[resolverValue.class].resolver(source, args, context, info);
         }
 
         return defaultFieldResolver(source, args, context, info);

@@ -17,7 +17,9 @@ directive @resolver(class: String="") on QUERY
     | INPUT_FIELD_DEFINITION
 
 type Query {
+    test(name: String): String
 }
 
 type Mutation {
+    test(name: String): String
 }

@@ -1,7 +1,0 @@
-type Query {
-    sayHello: Hello @resolver(class: "HelloWorld.Resolver.HelloResolver")
-}
-
-type Hello {
-    msg: String
-}

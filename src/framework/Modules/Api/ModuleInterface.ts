@@ -7,6 +7,11 @@ export interface ModuleInterface {
     name: string;
 
     /**
+     * Module vendor
+     */
+    vendor: string;
+
+    /**
      * ModuleConfig
      */
     config: BaseModuleConfigInterface;
@@ -17,4 +22,28 @@ export interface ModuleInterface {
      * @param className
      */
     require(className: string): object;
+
+    /**
+     * Require resource
+     *
+     * @param resource
+     * @param callback
+     * @param merge
+     */
+    requireResource(resource: string, callback: (content: String) => any, merge: boolean): void;
+
+    /**
+     * Get module scope
+     */
+    getScope(): string;
+
+    /**
+     * Get module location
+     */
+    getLocation(): string;
+
+    /**
+     * Get name with vendor
+     */
+    getModuleName(): string;
 }

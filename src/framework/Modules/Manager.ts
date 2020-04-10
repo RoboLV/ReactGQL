@@ -1,7 +1,8 @@
-import ModulesConfig from '@app/index'
 import {Container} from "@framework/Container";
 import {ModuleInterface} from "@framework/Modules/Api/ModuleInterface";
 import {Module} from "@framework/Modules/Module";
+import Maybe from "graphql/tsutils/Maybe";
+import {readdirSync} from 'fs';
 /**
  * Module manager
  */
@@ -20,7 +21,7 @@ export class Manager {
      * initialize and load modules
      */
     public initialize() {
-        this.loadModules();
+        this._loadModules();
     }
 
     /**
@@ -29,7 +30,7 @@ export class Manager {
      * @param name
      * @return Maybe<ModuleInterface>
      */
-    public getModule(name: string) {
+    public getModule(name: string): Maybe<ModuleInterface> {
         return this._modules.get(name);
     }
 
@@ -43,15 +44,31 @@ export class Manager {
     /**
      * Load modules
      */
-    protected loadModules() {
-        const modulesList = ModulesConfig.module;
+    protected _loadModules() {
+        const vendors = readdirSync('dist/app', { withFileTypes: true })
+            .filter(entity => entity.isDirectory())
+            .map(entity => entity.name);
 
-        Object.values(modulesList).forEach((name) => {
-            const module = new Module(
-                name
-            );
-            this._modules.set(name, module);
+        vendors.forEach((vendor) => {
+            const modules = readdirSync(`dist/app/${vendor}`, { withFileTypes: true })
+                .filter(entity => entity.isDirectory())
+                .map(entity => entity.name);
+
+            modules.forEach((moduleName) => {
+                const module = new Module(vendor, moduleName);
+                this._modules.set(module.getModuleName(), module);
+            });
         });
+
+        this._prepareModuleParents();
+    }
+
+    /**
+     * Assign parents for module
+     * @private
+     */
+    protected _prepareModuleParents() {
+
     }
 }
 

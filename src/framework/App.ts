@@ -63,7 +63,7 @@ export class App extends Container {
     protected _setupPublicPath(): void {
         this.express.use(Express.static('public'));
         this.express.use('*', (req,res) =>{
-            res.sendFile(path.join(__dirname, '../../public/index.html'));
+            res.sendFile(path.join(__dirname, '../../dist/public/index.html'));
         });
     }
 
