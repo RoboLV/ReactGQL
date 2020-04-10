@@ -1,10 +1,5 @@
 /*
  * @author Rihard <pub@email.soon>
- * @package regl
- */
-
-/*
- * @author Rihard <pub@email.soon>
  * @package node_station
  */
 
@@ -52,10 +47,13 @@ export class Factory {
 /**
  * Add to Objects unique id parameter, for factory cache
  */
-if (typeof Object.__objectUID == "undefined" ) {
+
+// @ts-ignore
+if (typeof Object.objectUID == "undefined" ) {
     let objectIDReference: number = 0;
 
-    Object.__objectUID = function(o) {
+    // @ts-ignore
+    Object.objectUID = function(o) {
         if ( typeof o.__uniqueid == "undefined" ) {
             Object.defineProperty(o, "__uniqueid", {
                 value: ++objectIDReference,

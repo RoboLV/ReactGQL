@@ -11,6 +11,7 @@ import {
 import {BaseResolverInterface} from "@framework/GraphQL/API/Resolver/BaseResolverInterface";
 import ModuleManager from "@framework/Modules/Model/Manager";
 import {Server} from "@framework/Server/Model/Server";
+import DIFactory from "@framework/DI/Model/Factory";
 
 /**
  * Express GraphQL Wrapper and interface
@@ -127,7 +128,7 @@ export class GraphQl {
                 if (!resolver) throw Error(`Undefined resolver: ${resolverValue.class}`);
 
                 // @ts-ignore
-                this.resolvers[resolverValue.class] = new resolver;
+                this.resolvers[resolverValue.class] = DIFactory.create<BaseResolverInterface>(resolver);
             }
 
             return this.resolvers[resolverValue.class].resolver(source, args, context, info);
