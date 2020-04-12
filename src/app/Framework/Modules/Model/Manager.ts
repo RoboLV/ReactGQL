@@ -128,7 +128,7 @@ export class Manager {
             const sourceMethod = target.prototype[plugin.method];
 
             const wrapperMethod = function(...args: any[]) {
-                plugin.plugin(target, sourceMethod.bind(this), ...args);
+                plugin.plugin(this, sourceMethod.bind(this), ...args);
             };
 
             target.prototype[plugin.method] = wrapperMethod;

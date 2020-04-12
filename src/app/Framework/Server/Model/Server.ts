@@ -7,8 +7,6 @@ import path from "path";
 import DotEnv from 'dotenv';
 import Express, { Express as ExpressInterface } from 'express';
 
-import ModuleManager, {Manager} from "@framework/Modules/Model/Manager";
-import {GraphQl} from "@framework/GraphQL/Model/GraphQl";
 import namespace from "@framework/Modules/Model/DI/Decorators/Namespace";
 import Container from "@framework/Modules/Model/Container";
 
@@ -23,23 +21,12 @@ export default class Server extends Container {
     private _express: ExpressInterface;
 
     /**
-     * GraphQL wrapper instance
-     */
-    private _graphQl: GraphQl;
-
-    /**
-     * Module manager
-     */
-    private _moduleManager: Manager = ModuleManager;
-
-    /**
      * Start server
      */
     public run(): void {
         this._createExpress();
         this._setupConfiguration();
-        this._setupModuleManager();
-        this._setupGraphQl();
+        this.bindMiddleWares();
         this._setupPublicPath();
         this._startUpExpress();
     }
@@ -80,10 +67,7 @@ export default class Server extends Container {
      *
      * @private
      */
-    protected _setupGraphQl(): void {
-        this._graphQl = new GraphQl(this);
-        this._graphQl.initialize();
-    }
+    public bindMiddleWares(): void {}
 
     /**
      * Run express server
@@ -99,21 +83,6 @@ export default class Server extends Container {
             );
             console.log("  Press CTRL-C to stop\n");
         });
-    }
-
-    /**
-     * Setup module manager
-     * @private
-     */
-    protected _setupModuleManager() {
-        this.moduleManager.initialize();
-    }
-
-    /**
-     * Get module Manager
-     */
-    get moduleManager(): Manager {
-        return this._moduleManager;
     }
 
     /**

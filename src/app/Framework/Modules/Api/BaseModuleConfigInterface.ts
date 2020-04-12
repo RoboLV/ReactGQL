@@ -17,5 +17,5 @@ export interface BaseModuleConfigInterface {
     /**
      * DI configuration
      */
-    di: [DIModuleConfigurationInterface];
+    di: DIModuleConfigurationInterface[];
 }

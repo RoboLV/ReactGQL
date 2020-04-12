@@ -65,8 +65,7 @@ export class GraphQl {
             }, false);
 
         ModuleManager.getModuleNameList().forEach((moduleName: string) => {
-            this._app.moduleManager
-                .getModule(moduleName)
+            ModuleManager.getModule(moduleName)
                 .requireResource(
                     'resource/schema.graphqls',
                     (content: string) => schema.push(content),
@@ -122,7 +121,7 @@ export class GraphQl {
                 const classPath = resolverValue.class.split('.');
                 const vendor = classPath.shift();
                 const moduleName = classPath.shift();
-                const module = this._app.moduleManager.getModule([vendor, moduleName].join('.'));
+                const module = ModuleManager.getModule([vendor, moduleName].join('.'));
 
                 // @ts-ignore
                 const resolver = module.require(classPath.join('/'));

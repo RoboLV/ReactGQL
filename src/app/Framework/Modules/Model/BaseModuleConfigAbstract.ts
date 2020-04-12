@@ -11,5 +11,5 @@ import DIModuleConfigurationInterface from "@framework/Modules/Api/DIModuleConfi
 export abstract class BaseModuleConfigAbstract implements BaseModuleConfigInterface{
     name: string;
     sequence: string[];
-    di: [DIModuleConfigurationInterface];
+    di: DIModuleConfigurationInterface[];
 }
