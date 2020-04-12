@@ -40,7 +40,7 @@ export class Factory {
         const tokens = Reflect.getMetadata('design:paramtypes', target) || [];
         const injections = tokens.map((token: any) => Factory.instance.create<any>(token));
 
-        return new target(...tokens);
+        return new target(...tokens, ...args);
     }
 }
 

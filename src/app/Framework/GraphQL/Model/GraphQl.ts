@@ -10,12 +10,14 @@ import {
 
 import {BaseResolverInterface} from "@framework/GraphQL/API/Resolver/BaseResolverInterface";
 import ModuleManager from "@framework/Modules/Model/Manager";
-import {Server} from "@framework/Server/Model/Server";
-import DIFactory from "@framework/DI/Model/Factory";
+import Server from "@framework/Server/Model/Server";
+import DIFactory from "@framework/Modules/Model/DI/Factory";
+import namespace from "@framework/Modules/Model/DI/Decorators/Namespace";
 
 /**
  * Express GraphQL Wrapper and interface
  */
+@namespace('Framework.GraphQL.Model')
 export class GraphQl {
     /**
      * App reference

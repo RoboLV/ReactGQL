@@ -3,13 +3,13 @@
  * @package regl
  */
 
-import {BaseModuleConfigInterface} from "@framework/Modules/Api/BaseModuleConfigInterface";
+import DIModuleConfigurationInterface from "@framework/Modules/Api/DIModuleConfigurationInterface";
+import {BaseModuleConfigAbstract} from "@framework/Modules/Model/BaseModuleConfigAbstract";
 
 /**
  * HelloWorld config
  */
-export class Config implements BaseModuleConfigInterface {
+export class Config extends BaseModuleConfigAbstract{
     name = 'Server';
-    sequence: [];
 }
 export default new Config();

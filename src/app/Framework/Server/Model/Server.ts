@@ -7,14 +7,16 @@ import path from "path";
 import DotEnv from 'dotenv';
 import Express, { Express as ExpressInterface } from 'express';
 
-import { Container } from "@framework/Server/Model/Container";
 import ModuleManager, {Manager} from "@framework/Modules/Model/Manager";
 import {GraphQl} from "@framework/GraphQL/Model/GraphQl";
+import namespace from "@framework/Modules/Model/DI/Decorators/Namespace";
+import Container from "@framework/Modules/Model/Container";
 
 /**
  * Main server class
  */
-export class Server extends Container {
+ @namespace('Framework.Server.Model')
+export default class Server extends Container {
     /**
      * Express instance
      */

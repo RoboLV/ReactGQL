@@ -1,5 +1,13 @@
+/**
+ * @author Rihard <pub@email.soon>
+ * @package regl
+ */
+
 import {BaseModuleConfigInterface} from "@framework/Modules/Api/BaseModuleConfigInterface";
 
+/**
+ * Base module interface
+ */
 export interface ModuleInterface {
     /**
      * Module name

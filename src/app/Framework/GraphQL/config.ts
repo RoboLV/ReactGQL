@@ -3,13 +3,12 @@
  * @package regl
  */
 
-import {BaseModuleConfigInterface} from "@framework/Modules/Api/BaseModuleConfigInterface";
+import {BaseModuleConfigAbstract} from "@framework/Modules/Model/BaseModuleConfigAbstract";
 
 /**
  * HelloWorld config
  */
-export class Config implements BaseModuleConfigInterface {
+export class Config extends BaseModuleConfigAbstract{
     name = 'GraphQL';
-    sequence: [];
 }
 export default new Config();

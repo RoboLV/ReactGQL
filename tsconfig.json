@@ -6,9 +6,16 @@
     "target": "es2017",
     "noImplicitAny": true,
     "moduleResolution": "node",
+    "experimentalDecorators": true,
     "sourceMap": true,
     "outDir": "dist",
     "baseUrl": ".",
+    "plugins": [
+      {
+        "name": "./src/app/Framework/Modules/Model/DI/TypeScript/Plugins",
+        "verbose": true
+      }
+    ],
     "paths": {
       "@app/*": ["src/app/*"],
       "@app": ["src/app/"],

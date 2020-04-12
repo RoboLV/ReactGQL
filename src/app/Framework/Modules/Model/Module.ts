@@ -51,17 +51,14 @@ export class Module implements ModuleInterface {
      * @param className
      */
     require(className: string): object {
-        const classPath = `${this.getScope()}/${className}`;
+        const classPath = `${this.getScope()}/${className.split('.').join('/')}`;
+        const classObject = require(classPath).default;
 
-        if (!this._cacheClass[classPath]) {
-            this._cacheClass[classPath] = require(classPath).default;
-        }
-
-        if (!this._cacheClass[classPath]) {
+        if (!classObject) {
             throw Error(`Could not find class: ${classPath}`);
         }
 
-        return this._cacheClass[classPath];
+        return classObject;
     }
 
     /**

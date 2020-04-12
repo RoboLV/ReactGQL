@@ -1,4 +1,8 @@
 /**
+ * @author Rihard <pub@email.soon>
+ * @package regl
+
+/**
  * Container class which provide class storage functionality
  */
 export class Container {
@@ -44,3 +48,5 @@ export class Container {
         return this._data;
     }
 }
+
+export default Container;
