@@ -17,8 +17,6 @@ export default class HelloResolver extends BaseResolverAbstract {
      * @param info
      */
     resolver(obj: object, args: object[], context: object, info: object): any {
-        debugger;
-        console.log(this);
         return {
             msg: "Hello!"
         };

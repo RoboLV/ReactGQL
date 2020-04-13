@@ -26,7 +26,8 @@ export class Builder {
     /**
      * Build di tree
      */
-    public build() {
+    public build(diObject: DIStructure) {
+        this.diStructure = diObject;
         this._loadDIConfiguration();
         this._processDIConfig();
         this._postDIProcessor();
@@ -80,7 +81,7 @@ export class Builder {
     protected _processPlugin(module: ModuleInterface, rule: DIModuleConfigurationInterface) {
         const pluginPath = rule.target.split('.').slice(2).join('.');
         const pluginModelClass = module.require(pluginPath);
-        // @ts-ignore
+
         const pluginModel = Factory.create<any>(pluginModelClass);
         const methodPlugins = pluginModel.constructor.prototype.__plugins__;
 
@@ -94,8 +95,14 @@ export class Builder {
                 this.diStructure[rule.source].plugins = [];
             }
 
+            const sourceModule = ModuleManager.getModule(rule.source.split('.').slice(0,2).join('.'));
+            const sourceClassRelativePath = rule.source.split('.').slice(2).join('/');
+            const sourceScope = `${sourceModule.getScope()}/${sourceClassRelativePath}`;
+            delete require.cache[require.resolve(sourceScope)];
+
             this.diStructure[rule.source].plugins.push({
                 method: sourceName,
+                // @ts-ignore
                 plugin: pluginModel[pluginName].bind(pluginModel),
                 pluginModel,
                 position: rule.position

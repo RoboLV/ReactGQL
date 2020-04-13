@@ -10,7 +10,7 @@ import {GraphQl} from "@framework/GraphQL/Model/GraphQl";
 /**
  * GraphQL server plugin
  */
-@namespace('Framework.GraphQL.Plugin.Server')
+@namespace('Framework.GraphQL.Plugin')
 export default class Server {
     /**
      * Bind GQL service
@@ -19,7 +19,7 @@ export default class Server {
      */
     @pluginMethod('bindMiddleWares')
     bindMiddleWares(target: any, callback: () => void) {
-        const graphQL = Factory.create<GraphQl>(GraphQl, target);
+        const graphQL = Factory.create<GraphQl>(GraphQl);
         graphQL.initialize();
     }
 }

@@ -9,11 +9,13 @@ import Express, { Express as ExpressInterface } from 'express';
 
 import namespace from "@framework/Modules/Model/DI/Decorators/Namespace";
 import Container from "@framework/Modules/Model/Container";
+import Singleton from "@framework/Modules/Model/DI/Decorators/Singleton";
 
 /**
  * Main server class
  */
- @namespace('Framework.Server.Model')
+@namespace('Framework.Server.Model')
+@Singleton()
 export default class Server extends Container {
     /**
      * Express instance

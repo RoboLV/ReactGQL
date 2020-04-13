@@ -10,11 +10,12 @@ import Maybe from "graphql/tsutils/Maybe";
 import {Builder} from "@framework/Modules/Model/DI/Builder";
 import Container from "@framework/Modules/Model/Container";
 import DIStructure from "@framework/Modules/Api/DIStructure";
+import Factory from "@framework/Modules/Model/DI/Factory";
 
 /**
  * Module manager
  */
-export class Manager {
+class Manager {
     /**
      * Self instance
      */
@@ -28,7 +29,12 @@ export class Manager {
     /**
      * DI tree
      */
-    _diTree: DIStructure = {};
+    _diTree: DIStructure;
+
+    /**
+     * Di structure builder
+     */
+    _diBuilder: Builder;
 
     /**
      * Constructor
@@ -36,6 +42,8 @@ export class Manager {
     constructor() {
         Manager.instance = this;
         this._modules = new Container();
+        this._diBuilder = new Builder();
+        this._diTree = {};
     }
 
     /**
@@ -98,8 +106,8 @@ export class Manager {
      * @private
      */
     protected _buildDITree(): void {
-        const diBuilder = new Builder();
-        this._diTree = diBuilder.build();
+        this._diBuilder.build(this._diTree);
+        Factory._cleanCache();
     }
 
     /**
@@ -128,7 +136,7 @@ export class Manager {
             const sourceMethod = target.prototype[plugin.method];
 
             const wrapperMethod = function(...args: any[]) {
-                plugin.plugin(this, sourceMethod.bind(this), ...args);
+                return plugin.plugin(this, sourceMethod.bind(this), ...args);
             };
 
             target.prototype[plugin.method] = wrapperMethod;
