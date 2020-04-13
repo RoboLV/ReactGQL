@@ -21,5 +21,7 @@ export default class Server {
     bindMiddleWares(target: any, callback: () => void) {
         const graphQL = Factory.create<GraphQl>(GraphQl);
         graphQL.initialize();
+
+        return callback();
     }
 }
