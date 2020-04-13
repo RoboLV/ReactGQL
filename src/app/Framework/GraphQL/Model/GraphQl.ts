@@ -27,7 +27,7 @@ export class GraphQl {
     /**
      * Resolved resolvers
      */
-    private resolvers: {[key: string]: BaseResolverInterface} = {};
+    private _resolvers: {[key: string]: BaseResolverInterface} = {};
 
     /**
      * Constructor
@@ -117,7 +117,7 @@ export class GraphQl {
         const resolverValue = getDirectiveValues(resolverDirective, fieldDef.astNode);
 
         if (resolverValue && resolverValue.class) {
-            if (!this.resolvers[resolverValue.class]) {
+            if (!this._resolvers[resolverValue.class]) {
                 const classPath = resolverValue.class.split('.');
                 const vendor = classPath.shift();
                 const moduleName = classPath.shift();
@@ -129,10 +129,10 @@ export class GraphQl {
                 if (!resolver) throw Error(`Undefined resolver: ${resolverValue.class}`);
 
                 // @ts-ignore
-                this.resolvers[resolverValue.class] = DIFactory.create<BaseResolverInterface>(resolver);
+                this._resolvers[resolverValue.class] = DIFactory.create<BaseResolverInterface>(resolver);
             }
 
-            return this.resolvers[resolverValue.class].resolver(source, args, context, info);
+            return this._resolvers[resolverValue.class].resolver(source, args, context, info);
         }
 
         return defaultFieldResolver(source, args, context, info);
